@@ -207,7 +207,7 @@ fun FactionLargeBanner(factionInfo: FactionInfo.Available) {
     AppWidgetColumn {
         Text(
             modifier = GlanceModifier.fillMaxWidth(),
-            text = "拯救零依计划",
+            text = "拯救灵依计划",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
@@ -262,24 +262,6 @@ fun FactionLarge(factionInfo: FactionInfo.Available) {
     val maxIncrease =
         list.first().data.last().point - list.first().data[list.first().data.size - 144].point
 
-
-    /*LaunchedEffect(Unit) {
-        val tempList = mutableListOf<FactionData.Factions.FactionItem>()
-        tempList.add(factionInfo.currentData.factions.faction1)
-        tempList.add(factionInfo.currentData.factions.faction2)
-        tempList.add(factionInfo.currentData.factions.faction3)
-        tempList.add(factionInfo.currentData.factions.faction4)
-        tempList.add(factionInfo.currentData.factions.faction5)
-        tempList.add(factionInfo.currentData.factions.faction6)
-
-        tempList.sortBy { it.data.last().point - it.data[it.data.size - 144].point }
-        list.clear()
-        list.addAll(tempList)
-
-        val first = tempList.first()
-        maxIncrease = first.data.last().point - first.data[first.data.size - 144].point
-
-    }*/
     AppWidgetColumn(
         modifier = GlanceModifier
             .fillMaxSize()
@@ -289,7 +271,7 @@ fun FactionLarge(factionInfo: FactionInfo.Available) {
             modifier = GlanceModifier
                 .fillMaxWidth()
                 .padding(top = 4.dp),
-            text = "拯救零依计划 - 看看大佬 24h 卷了多少",
+            text = "拯救灵依计划 - 看看大佬 24h 卷了多少",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center

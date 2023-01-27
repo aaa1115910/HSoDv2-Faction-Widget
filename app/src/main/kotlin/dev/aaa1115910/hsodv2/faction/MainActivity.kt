@@ -86,94 +86,89 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     ) { innerPadding ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(innerPadding)
-                                .padding(8.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                        Box(
+                            modifier = Modifier.fillMaxSize()
                         ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(innerPadding)
+                                    .padding(8.dp),
+                                verticalArrangement = Arrangement.spacedBy(8.dp),
                             ) {
-                                Text(text = "你的 XP: ${xpMap[yourXp]}")
-                                Box {
-                                    IconButton(onClick = { expandedXpDropdownMenu = true }) {
-                                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedXpDropdownMenu)
-                                    }
-                                    DropdownMenu(
-                                        expanded = expandedXpDropdownMenu,
-                                        onDismissRequest = { expandedXpDropdownMenu = false }
-                                    ) {
-                                        xpMap.forEach { (id, name) ->
-                                            DropdownMenuItem(
-                                                text = { Text(text = name) },
-                                                onClick = {
-                                                    yourXp = id
-                                                    expandedXpDropdownMenu = false
-                                                })
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(text = "你的 XP: ${xpMap[yourXp]}")
+                                    Box {
+                                        IconButton(onClick = { expandedXpDropdownMenu = true }) {
+                                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedXpDropdownMenu)
+                                        }
+                                        DropdownMenu(
+                                            expanded = expandedXpDropdownMenu,
+                                            onDismissRequest = { expandedXpDropdownMenu = false }
+                                        ) {
+                                            xpMap.forEach { (id, name) ->
+                                                DropdownMenuItem(
+                                                    text = { Text(text = name) },
+                                                    onClick = {
+                                                        yourXp = id
+                                                        expandedXpDropdownMenu = false
+                                                    })
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                            OutlinedTextField(
-                                value = scoreText,
-                                onValueChange = { scoreText = it },
-                                label = { Text(text = "你的分数") },
-                                supportingText = { Text(text = "又没有接口去获取分数，只能你自己填了呗") }
-                            )
-                            Button(onClick = {
-                                val scoreNum = runCatching { scoreText.toInt() }
-                                    .onFailure {
-                                        Toast.makeText(
-                                            this@MainActivity,
-                                            "请检查你填写的数据",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        return@Button
-                                    }
-                                    .getOrDefault(0)
-                                scope.launch(Dispatchers.Default) {
-                                    /*GlanceAppWidgetManager(this@MainActivity)
-                                        .getGlanceIds(FactionAppWidget::class.java)
-                                        .forEach { glanceId ->
-                                            updateAppWidgetState(
-                                                context = this@MainActivity,
-                                                glanceId = glanceId,
-                                            ) {
-                                                it[intPreferencesKey("xp_id")] = yourXp
-                                                it[PreferencesKeys.SCORE] = scoreNum
-                                            }
-                                        }*/
-
-                                    this@MainActivity.dataStore.edit { preferences ->
-                                        preferences[PreferencesKeys.XP_ID] = yourXp
-                                        preferences[PreferencesKeys.SCORE] = scoreNum
-
-                                        withContext(Dispatchers.Main) {
+                                OutlinedTextField(
+                                    value = scoreText,
+                                    onValueChange = { scoreText = it },
+                                    label = { Text(text = "你的分数") },
+                                    supportingText = { Text(text = "又没有接口去获取分数，只能你自己填了呗") }
+                                )
+                                Button(onClick = {
+                                    val scoreNum = runCatching { scoreText.toInt() }
+                                        .onFailure {
                                             Toast.makeText(
                                                 this@MainActivity,
-                                                "保存成功",
+                                                "请检查你填写的数据",
                                                 Toast.LENGTH_SHORT
                                             ).show()
+                                            return@Button
+                                        }
+                                        .getOrDefault(0)
+                                    scope.launch(Dispatchers.Default) {
+                                        this@MainActivity.dataStore.edit { preferences ->
+                                            preferences[PreferencesKeys.XP_ID] = yourXp
+                                            preferences[PreferencesKeys.SCORE] = scoreNum
+
+                                            withContext(Dispatchers.Main) {
+                                                Toast.makeText(
+                                                    this@MainActivity,
+                                                    "保存成功",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
                                         }
                                     }
+                                }) {
+                                    Text(text = "好就这样")
                                 }
-                            }) {
-                                Text(text = "好就这样")
+                                Text(text = "数据来源：搞事学园")
                             }
-                            Text(text = "数据来源：搞事学园")
                             Text(
-                                modifier = Modifier.clickable {
-                                    startActivity(
-                                        Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse("https://github.com/aaa1115910/HSoDv2-Faction-Widget")
+                                modifier = Modifier
+                                    .align(Alignment.BottomCenter)
+                                    .padding(8.dp)
+                                    .clickable {
+                                        startActivity(
+                                            Intent(
+                                                Intent.ACTION_VIEW,
+                                                Uri.parse("https://github.com/aaa1115910/HSoDv2-Faction-Widget")
+                                            )
                                         )
-                                    )
-                                },
-                                text = "项目地址：https://github.com/aaa1115910/HSoDv2-Faction-Widget"
+                                    },
+                                text = "github.com/aaa1115910/HSoDv2-Faction-Widget"
                             )
                         }
                     }
