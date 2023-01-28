@@ -1,9 +1,7 @@
 package dev.aaa1115910.hsodv2.faction.widget
 
 import android.content.Context
-import dev.aaa1115910.hsodv2.faction.PreferencesKeys
-import dev.aaa1115910.hsodv2.faction.UserPreferences
-import dev.aaa1115910.hsodv2.faction.dataStore
+import dev.aaa1115910.hsodv2.faction.getUserPreferences
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
@@ -13,8 +11,6 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.serialization.kotlinx.json.json
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
 
 object FactionRepo {
@@ -31,19 +27,14 @@ object FactionRepo {
     suspend fun getFactionInfo(context: Context): FactionInfo {
         println("getFactionInfo")
         return runCatching {
-            //var xpId = 1
-            //var score = 0
-            val p = context.dataStore.data.map { preferences ->
-                val xpId = preferences[PreferencesKeys.XP_ID] ?: 1
-                val score = preferences[PreferencesKeys.SCORE] ?: 1
-                UserPreferences(xpId, score)
-            }.first()
-            println("-xp: ${p.xpId}")
-            println("-score: ${p.score}")
+            val userPreferences = context.getUserPreferences()
+            println("-xp: ${userPreferences.xpId}")
+            println("-score: ${userPreferences.score}")
+            println("-warningLine: ${userPreferences.warningLine}")
             FactionInfo.Available(
                 currentData = getFactionData(),
-                yourXpId = p.xpId,
-                yourScore = p.score
+                yourXpId = userPreferences.xpId,
+                yourScore = userPreferences.score
             )
         }
             .onFailure {
