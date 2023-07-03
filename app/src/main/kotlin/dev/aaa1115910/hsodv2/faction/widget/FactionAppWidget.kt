@@ -139,7 +139,8 @@ fun FactionProThin(factionInfo: FactionInfo.Available) {
             text = xpMap[factionInfo.yourXpId] ?: "???",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = GlanceTheme.colors.primary
             )
         )
         val currentScore = when (factionInfo.yourXpId) {
@@ -151,8 +152,14 @@ fun FactionProThin(factionInfo: FactionInfo.Available) {
             6 -> factionInfo.currentData.factions.faction6.data.last().point
             else -> 0
         }
-        Text(text = "$currentScore")
-        Text(text = "${factionInfo.yourScore}")
+        Text(
+            text = "$currentScore",
+            style = TextStyle(color = GlanceTheme.colors.primary)
+        )
+        Text(
+            text = "${factionInfo.yourScore}",
+            style = TextStyle(color = GlanceTheme.colors.primary)
+        )
     }
 }
 
@@ -170,7 +177,8 @@ fun FactionThin(factionInfo: FactionInfo.Available) {
             text = xpMap[factionInfo.yourXpId] ?: "???",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = GlanceTheme.colors.primary
             )
         )
         val currentScore = when (factionInfo.yourXpId) {
@@ -182,8 +190,14 @@ fun FactionThin(factionInfo: FactionInfo.Available) {
             6 -> factionInfo.currentData.factions.faction6.data.last().point
             else -> 0
         }
-        Text(text = "当前：$currentScore")
-        Text(text = "你的：${factionInfo.yourScore}")
+        Text(
+            text = "当前：$currentScore",
+            style = TextStyle(color = GlanceTheme.colors.primary)
+        )
+        Text(
+            text = "你的：${factionInfo.yourScore}",
+            style = TextStyle(color = GlanceTheme.colors.primary)
+        )
     }
 }
 
@@ -196,7 +210,8 @@ fun FactionSmallBanner(factionInfo: FactionInfo.Available) {
             text = xpMap[factionInfo.yourXpId] ?: "???",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = GlanceTheme.colors.primary
             )
         )
         Row(
@@ -215,15 +230,27 @@ fun FactionSmallBanner(factionInfo: FactionInfo.Available) {
                 else -> 0
             }
             Column {
-                Text(text = "实物线")
-                Text(text = "$currentScore")
+                Text(
+                    text = "实物线",
+                    style = TextStyle(color = GlanceTheme.colors.primary)
+                )
+                Text(
+                    text = "$currentScore",
+                    style = TextStyle(color = GlanceTheme.colors.primary)
+                )
             }
             Spacer(
                 modifier = GlanceModifier.width(24.dp)
             )
             Column {
-                Text(text = "你的分数")
-                Text(text = "${factionInfo.yourScore}")
+                Text(
+                    text = "你的分数",
+                    style = TextStyle(color = GlanceTheme.colors.primary)
+                )
+                Text(
+                    text = "${factionInfo.yourScore}",
+                    style = TextStyle(color = GlanceTheme.colors.primary)
+                )
             }
         }
     }
@@ -238,7 +265,8 @@ fun FactionLargeBanner(factionInfo: FactionInfo.Available) {
             text = "超日常夏日之旅",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = GlanceTheme.colors.primary
             )
         )
         Row(
@@ -264,13 +292,22 @@ fun FactionLargeBannerItem(
         modifier = GlanceModifier.padding(horizontal = 4.dp),
         horizontalAlignment = Alignment.Horizontal.CenterHorizontally
     ) {
-        Text(text = factionItem.factionName)
-        Text(text = "${factionItem.data.last().point}")
-        Text(text = "+${
+        Text(
+            text = factionItem.factionName,
+            style = TextStyle(color = GlanceTheme.colors.primary)
+        )
+        Text(
+            text = "${factionItem.data.last().point}",
+            style = TextStyle(color = GlanceTheme.colors.primary)
+        )
+        Text(
+            text = "+${
             factionItem.data.last().point -
                     runCatching { factionItem.data[factionItem.data.size - 144].point }
                         .getOrDefault(0)
-        }")
+        }",
+            style = TextStyle(color = GlanceTheme.colors.primary)
+        )
     }
 }
 
@@ -310,7 +347,8 @@ fun FactionLarge(factionInfo: FactionInfo.Available) {
             text = "超日常夏日之旅 - 看看大佬 24h 卷了多少",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = GlanceTheme.colors.primary
             )
         )
         Box(
@@ -343,7 +381,8 @@ fun FactionLargeItem(
     ) {
         Text(
             modifier = GlanceModifier.width(70.dp),
-            text = factionItem.factionName
+            text = factionItem.factionName,
+            style = TextStyle(color = GlanceTheme.colors.primary)
         )
         Box(
             modifier = GlanceModifier
@@ -358,7 +397,8 @@ fun FactionLargeItem(
                 factionItem.data.last().point -
                         runCatching { factionItem.data[factionItem.data.size - 144].point }
                             .getOrDefault(0)
-            }"
+            }",
+            style = TextStyle(color = GlanceTheme.colors.primary)
         )
     }
 }
