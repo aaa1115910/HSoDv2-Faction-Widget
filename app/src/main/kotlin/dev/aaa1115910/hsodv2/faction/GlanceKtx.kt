@@ -23,6 +23,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceModifier
+import androidx.glance.GlanceTheme
 import androidx.glance.LocalContext
 import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.cornerRadius
@@ -33,7 +34,6 @@ import androidx.glance.layout.Column
 import androidx.glance.layout.ColumnScope
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
-import dev.aaa1115910.hsodv2.faction.ui.theme.GlanceTheme
 
 /**
  * Provide a Box composable using the system parameters for app widgets background with rounded

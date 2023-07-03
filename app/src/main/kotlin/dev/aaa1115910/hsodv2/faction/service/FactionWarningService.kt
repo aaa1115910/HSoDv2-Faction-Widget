@@ -11,6 +11,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
@@ -52,6 +53,7 @@ class FactionWarningService : Service() {
         NotificationCompat.Builder(App.context, KEEP_ALIVE_NOTIFICATION_CHANNEL_ID)
             .setContentTitle("title")
             .setContentText("text")
+            //.setContentIntent(PendingIntent.getService(this,0,Intent(App.context,MainActivity::class.java),PendingIntent.FLAG_ONE_SHOT))
             .build()
 
     private lateinit var scoreWarningNotification: Notification
@@ -62,12 +64,22 @@ class FactionWarningService : Service() {
     }
 
     private var replyPendingIntent: PendingIntent =
-        PendingIntent.getBroadcast(
-            App.context,
-            1,
-            Intent().apply { action = "quick.reply.input" },
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-        )
+        if (Build.VERSION.SDK_INT >= 34) {
+            PendingIntent.getBroadcast(
+                App.context,
+                1,
+                Intent().apply { action = "quick.reply.input" },
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_ALLOW_UNSAFE_IMPLICIT_INTENT
+            )
+        } else {
+                PendingIntent.getBroadcast(
+                    App.context,
+                    1,
+                    Intent().apply { action = "quick.reply.input" },
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                )
+        }
+
 
     private fun getMessageText(intent: Intent): String {
         return RemoteInput.getResultsFromIntent(intent)?.getCharSequence(KEY_TEXT_REPLY).toString()
@@ -174,7 +186,11 @@ class FactionWarningService : Service() {
         val filter = IntentFilter()
         filter.addCategory(this.packageName)
         filter.addAction("quick.reply.input")
-        registerReceiver(receiver, filter)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(receiver, filter, RECEIVER_EXPORTED)
+        } else {
+            registerReceiver(receiver, filter)
+        }
 
         super.onCreate()
     }

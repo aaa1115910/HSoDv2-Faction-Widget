@@ -7,6 +7,7 @@ import androidx.compose.ui.unit.dp
 import androidx.glance.Button
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.GlanceTheme
 import androidx.glance.LocalSize
 import androidx.glance.action.ActionParameters
 import androidx.glance.action.clickable
@@ -18,6 +19,7 @@ import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.cornerRadius
+import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.currentState
 import androidx.glance.layout.Alignment
@@ -37,7 +39,7 @@ import androidx.glance.text.TextStyle
 import dev.aaa1115910.hsodv2.faction.AppWidgetBox
 import dev.aaa1115910.hsodv2.faction.AppWidgetColumn
 import dev.aaa1115910.hsodv2.faction.appWidgetBackgroundCornerRadius
-import dev.aaa1115910.hsodv2.faction.ui.theme.GlanceTheme
+import dev.aaa1115910.hsodv2.faction.ui.theme.HSoDv2FactionGlanceTheme
 import dev.aaa1115910.hsodv2.faction.xpMap
 
 
@@ -58,13 +60,11 @@ class FactionAppWidget : GlanceAppWidget() {
         setOf(thinProMode, thinMode, smallBannerMode, largeBannerMode, largeMode)
     )
 
-    @Composable
-    override fun Content() {
-
+    override suspend fun provideGlance(context: Context, id: GlanceId) = provideContent {
         val factionInfo = currentState<FactionInfo>()
         val size = LocalSize.current
 
-        GlanceTheme {
+        HSoDv2FactionGlanceTheme {
             when (factionInfo) {
                 is FactionInfo.Loading -> {
                     AppWidgetBox(contentAlignment = Alignment.Center) {
