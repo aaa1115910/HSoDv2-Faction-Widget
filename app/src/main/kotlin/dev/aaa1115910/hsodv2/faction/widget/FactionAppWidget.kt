@@ -142,7 +142,16 @@ fun FactionProThin(factionInfo: FactionInfo.Available) {
                 textAlign = TextAlign.Center
             )
         )
-        Text(text = "${factionInfo.currentData.factions.faction6.data.last().point}")
+        val currentScore = when (factionInfo.yourXpId) {
+            1 -> factionInfo.currentData.factions.faction1.data.last().point
+            2 -> factionInfo.currentData.factions.faction2.data.last().point
+            3 -> factionInfo.currentData.factions.faction3.data.last().point
+            4 -> factionInfo.currentData.factions.faction4.data.last().point
+            5 -> factionInfo.currentData.factions.faction5.data.last().point
+            6 -> factionInfo.currentData.factions.faction6.data.last().point
+            else -> 0
+        }
+        Text(text = "$currentScore")
         Text(text = "${factionInfo.yourScore}")
     }
 }
@@ -164,7 +173,16 @@ fun FactionThin(factionInfo: FactionInfo.Available) {
                 textAlign = TextAlign.Center
             )
         )
-        Text(text = "当前：${factionInfo.currentData.factions.faction6.data.last().point}")
+        val currentScore = when (factionInfo.yourXpId) {
+            1 -> factionInfo.currentData.factions.faction1.data.last().point
+            2 -> factionInfo.currentData.factions.faction2.data.last().point
+            3 -> factionInfo.currentData.factions.faction3.data.last().point
+            4 -> factionInfo.currentData.factions.faction4.data.last().point
+            5 -> factionInfo.currentData.factions.faction5.data.last().point
+            6 -> factionInfo.currentData.factions.faction6.data.last().point
+            else -> 0
+        }
+        Text(text = "当前：$currentScore")
         Text(text = "你的：${factionInfo.yourScore}")
     }
 }
@@ -186,9 +204,19 @@ fun FactionSmallBanner(factionInfo: FactionInfo.Available) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalAlignment = Alignment.CenterVertically
         ) {
+
+            val currentScore = when (factionInfo.yourXpId) {
+                1 -> factionInfo.currentData.factions.faction1.data.last().point
+                2 -> factionInfo.currentData.factions.faction2.data.last().point
+                3 -> factionInfo.currentData.factions.faction3.data.last().point
+                4 -> factionInfo.currentData.factions.faction4.data.last().point
+                5 -> factionInfo.currentData.factions.faction5.data.last().point
+                6 -> factionInfo.currentData.factions.faction6.data.last().point
+                else -> 0
+            }
             Column {
                 Text(text = "实物线")
-                Text(text = "${factionInfo.currentData.factions.faction6.data.last().point}")
+                Text(text = "$currentScore")
             }
             Spacer(
                 modifier = GlanceModifier.width(24.dp)
@@ -207,7 +235,7 @@ fun FactionLargeBanner(factionInfo: FactionInfo.Available) {
     AppWidgetColumn {
         Text(
             modifier = GlanceModifier.fillMaxWidth(),
-            text = "拯救灵依计划",
+            text = "超日常夏日之旅",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
@@ -238,7 +266,11 @@ fun FactionLargeBannerItem(
     ) {
         Text(text = factionItem.factionName)
         Text(text = "${factionItem.data.last().point}")
-        Text(text = "(+${factionItem.data.last().point - factionItem.data[factionItem.data.size - 144].point})")
+        Text(text = "+${
+            factionItem.data.last().point -
+                    runCatching { factionItem.data[factionItem.data.size - 144].point }
+                        .getOrDefault(0)
+        }")
     }
 }
 
@@ -257,10 +289,14 @@ fun FactionLarge(factionInfo: FactionInfo.Available) {
             add(factionInfo.currentData.factions.faction4)
             add(factionInfo.currentData.factions.faction5)
             add(factionInfo.currentData.factions.faction6)
-            sortByDescending { it.data.last().point - it.data[it.data.size - 144].point }
+            sortByDescending {
+                it.data.last().point -
+                        runCatching { it.data[it.data.size - 144].point }.getOrDefault(0)
+            }
         }
     val maxIncrease =
-        list.first().data.last().point - list.first().data[list.first().data.size - 144].point
+        list.first().data.last().point -
+                runCatching { list.first().data[list.first().data.size - 144].point }.getOrDefault(0)
 
     AppWidgetColumn(
         modifier = GlanceModifier
@@ -271,7 +307,7 @@ fun FactionLarge(factionInfo: FactionInfo.Available) {
             modifier = GlanceModifier
                 .fillMaxWidth()
                 .padding(top = 4.dp),
-            text = "拯救灵依计划 - 看看大佬 24h 卷了多少",
+            text = "超日常夏日之旅 - 看看大佬 24h 卷了多少",
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
@@ -297,7 +333,8 @@ fun FactionLargeItem(
     factionItem: FactionData.Factions.FactionItem,
     maxIncrease: Int
 ) {
-    val add = factionItem.data.last().point - factionItem.data[factionItem.data.size - 144].point
+    val add = factionItem.data.last().point -
+            runCatching { factionItem.data[factionItem.data.size - 144].point }.getOrDefault(0)
     Row(
         modifier = GlanceModifier
             .fillMaxWidth()
@@ -317,7 +354,11 @@ fun FactionLargeItem(
         ) {}
         Text(
             modifier = GlanceModifier.padding(start = 4.dp),
-            text = "+${factionItem.data.last().point - factionItem.data[factionItem.data.size - 144].point}"
+            text = "+${
+                factionItem.data.last().point -
+                        runCatching { factionItem.data[factionItem.data.size - 144].point }
+                            .getOrDefault(0)
+            }"
         )
     }
 }

@@ -196,7 +196,7 @@ class FactionWarningService : Service() {
     }
 
     private suspend fun updateData() {
-        val response = FactionRepo.getFactionData(id = 20231)
+        val response = FactionRepo.getFactionData(id = 20232)
         val userPreferences = runBlocking { App.context.getUserPreferences() }
 
         val faction = when (userPreferences.xpId) {

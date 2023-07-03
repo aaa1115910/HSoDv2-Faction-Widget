@@ -45,7 +45,7 @@ object FactionRepo {
     }
 
     suspend fun getFactionData(
-        id: Int = 20231
+        id: Int = 20232
     ): FactionData =
         client
             .get("https://api-1256168079.cos.ap-chengdu.myqcloud.com/faction/$id/data.json")

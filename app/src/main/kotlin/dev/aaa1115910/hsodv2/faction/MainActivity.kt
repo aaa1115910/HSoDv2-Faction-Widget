@@ -49,12 +49,12 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 val xpMap = mapOf(
-    1 to "丽贝卡",
-    2 to "眠梦",
-    3 to "Yoko",
-    4 to "丝诺",
-    5 to "罗蕾莱",
-    6 to "恰卡纳"
+    1 to "艾尔瓦加尔",
+    2 to "祈",
+    3 to "诺登斯",
+    4 to "伊登",
+    5 to "紬",
+    6 to "樱华"
 )
 
 class MainActivity : ComponentActivity() {
