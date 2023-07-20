@@ -51,13 +51,27 @@ class FactionAppWidget : GlanceAppWidget() {
         private val smallBannerMode = DpSize(200.dp, 100.dp)
         private val largeBannerMode = DpSize(300.dp, 100.dp)
         private val largeMode = DpSize(300.dp, 200.dp)
+        private val largeMode2 = DpSize(310.dp, 200.dp)
+        private val largeMode3 = DpSize(320.dp, 200.dp)
+        private val largeMode4 = DpSize(330.dp, 200.dp)
+        private val largeMode5 = DpSize(340.dp, 200.dp)
+        private val largeMode6 = DpSize(350.dp, 200.dp)
+        private val largeMode7 = DpSize(360.dp, 200.dp)
+        private val largeMode8 = DpSize(370.dp, 200.dp)
+        private val largeMode9 = DpSize(380.dp, 200.dp)
+        private val largeMode10 = DpSize(390.dp, 200.dp)
+        private val largeMode11 = DpSize(400.dp, 200.dp)
     }
 
     override val stateDefinition = FactionInfoStateDefinition
 
     //override val sizeMode: SizeMode get() = SizeMode.Exact
     override val sizeMode: SizeMode = SizeMode.Responsive(
-        setOf(thinProMode, thinMode, smallBannerMode, largeBannerMode, largeMode)
+        setOf(
+            thinProMode, thinMode, smallBannerMode, largeBannerMode, largeMode,
+            largeMode2, largeMode3, largeMode4, largeMode5, largeMode6, largeMode7,
+            largeMode8, largeMode9, largeMode10, largeMode11
+        )
     )
 
     override suspend fun provideGlance(context: Context, id: GlanceId) = provideContent {
@@ -65,6 +79,7 @@ class FactionAppWidget : GlanceAppWidget() {
         val size = LocalSize.current
 
         HSoDv2FactionGlanceTheme {
+
             when (factionInfo) {
                 is FactionInfo.Loading -> {
                     AppWidgetBox(contentAlignment = Alignment.Center) {
@@ -79,7 +94,9 @@ class FactionAppWidget : GlanceAppWidget() {
                             thinMode -> FactionThin(factionInfo)
                             smallBannerMode -> FactionSmallBanner(factionInfo)
                             largeBannerMode -> FactionLargeBanner(factionInfo)
-                            largeMode -> FactionLarge(factionInfo)
+                            largeMode, largeMode2, largeMode3, largeMode4, largeMode5, largeMode6,
+                            largeMode7, largeMode8, largeMode9, largeMode10, largeMode11
+                            -> FactionLarge(factionInfo)
                         }
                         //Text(text = "$size")
                     }
@@ -302,10 +319,10 @@ fun FactionLargeBannerItem(
         )
         Text(
             text = "+${
-            factionItem.data.last().point -
-                    runCatching { factionItem.data[factionItem.data.size - 144].point }
-                        .getOrDefault(0)
-        }",
+                factionItem.data.last().point -
+                        runCatching { factionItem.data[factionItem.data.size - 144].point }
+                            .getOrDefault(0)
+            }",
             style = TextStyle(color = GlanceTheme.colors.primary)
         )
     }
@@ -380,13 +397,15 @@ fun FactionLargeItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            modifier = GlanceModifier.width(70.dp),
+            modifier = GlanceModifier.width(80.dp),
             text = factionItem.factionName,
             style = TextStyle(color = GlanceTheme.colors.primary)
         )
+
+        val width = LocalSize.current.width
         Box(
             modifier = GlanceModifier
-                .width(((add.toFloat() / maxIncrease) * 200).dp)
+                .width(((add.toFloat() / maxIncrease) * (width.value - 200.dp.value)).dp)
                 .height(8.dp)
                 .cornerRadius(4.dp)
                 .background(GlanceTheme.colors.primary)
